@@ -1,8 +1,13 @@
+git config --list 查看配置信息
 git init 初始化厂库
+
 git add 增加
 git rm --cached *.html 删除
 git status 查看状态
 git commit -m "描述内容" 提交+描述
+git commit -a -m "描述内容" 跳过add的操作
+git log 查看历史操作
+
 git branch *** 创建分支
 git checkout *** 进入分支
 git merge *** 将***合并到主线（前提要在主线下操作）
@@ -12,3 +17,13 @@ git push 上传
 
 git remote add origin https://github.com/luckyboyZct/companytest.git
 git push -u origin master
+
+
+git分为是三个区
+工作区：git add . (将文件提交到暂存区)
+暂存区：git commit (将文件提交到版本库)
+	- 作为过渡层
+	- 防止误操作
+	- 保护工作区和版本区
+	- 分支处理
+版本库：
