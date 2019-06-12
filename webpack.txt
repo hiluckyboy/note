@@ -1,0 +1,119 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");	//使用插件方法
+const path = require("path");					//路径方法
+module.exports = {
+	entry : "./src/app.js",					//entry:入口文件
+	output:{						//output:输出
+		path : path.resolve(__dirname,"dist"),		//输出到dist目录下
+		filename : "main.js",				//文件名称为main.js
+		publicPath : "assets/"				//打包后会在每个资源前边加上这个路径，但是可能导致打开服务器时找不到页面
+	},
+	plugins:[						//plugins:插件使用
+		new HtmlWebpackPlugin({				//以下为设置选项
+			filename:"../main.html",		//../修改文件存放路径
+			template:"src/index1.html"
+		})
+	],
+	module : {						//loader处理模块
+		rules : [
+			{					//设置处理规则
+				test : /\.js$/,				//处理结尾为.js的文件
+				use : [{
+					loader : "babel-loader",	//引入babel-loader
+					options : {			//设置参数
+						presets : ["react"]
+					}
+				}]
+			},
+			{
+				test : /\.(jpg|png|gif|jpeg?dfsdfd)$/,		//多种格式写法,问号后面的不匹配
+				use : [
+					{
+						loader : "file-loader",
+						options : {
+							name : "img/[hash:6].[ext]" //存储到img下 ext是它的原格式
+						}
+					}
+				]
+			},
+			{
+				test : /\.css$/,
+				use : [
+					"style-loader",
+					{
+						loader : "css-loader",
+						options : {
+							module : true,
+							localIdentName : "[path]-[name]-[local]-[hash:base64:6]" //语义化name
+						}
+					}
+				],
+				exclude : [				// 使此样式包文件不被上面的loader所匹配而规则化
+					path.resolve(__dirname,"路径")
+				]
+			},
+			{						//需要再加此条规则处理exclude，否则会报错
+				test : /\.css$/,
+				use : ["style-loader","css-loader"],
+				include : [path.resolve(__dirname,"路径")]    //(原理：在此处做样式处理，但是只处理路径里面的，到exclude时再模块化此路径外面的，否则处理两次会报错)
+			}
+		]
+	},
+	devServer:{						//设置web服务
+		open : true					//是否自动打开
+		port : 9000					//重新设置接口
+	}
+}
+
+入口文件：app.js
+import a from "./a"						//引入其他js文件
+import "***.css"						//引入其他css文件
+import Image form "***.jpg"					//引入其他image文件
+const image = require("***.jpg")				//引入其他image文件的另外一种方式 如果只要一次那么可以写为<img src={require("***.jpg")} />
+
+需要在package.json文件下的scripts里配置"dev": "webpack" 当文件名不是webpack.config.js 时，这样写 "dev" : "webpack -config 新的文件名"
+
+入口文件简单设置：
+ReactDom.render(						//将<div>react</div>放入div#111里面
+	<div className="">react<img src={Image} /></div>,	//用className加class名 引image图片src={Image}
+	document.getElementById("root")
+)
+
+babel-loader:处理js的loader     style-loader和css-loader处理样式的loader         file-loader处理图片的loader或者url-loader处理图片（将图片转化正base64编码）
+
+引用插件后需要new一个新的对象加以使用
+
+配置动态entry：
+／／同步函数
+entry : () => { 
+	return { 
+		a:'. / p ages/a', 
+		b:'./pages/ b', 
+	}
+}
+／／异步函数
+entry : () => {
+	return new Promise(
+		(resolve)=>{
+			resolve({
+				a:"./pages/a",
+				b:"./pages/b",
+			});
+		}
+	);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

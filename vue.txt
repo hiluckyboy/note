@@ -1,0 +1,274 @@
+let： 声明变量
+	1、不允许重复声明变量，否则会报错；
+	2、不存在变量提升；
+	
+const：声明常量
+	1、不可变常量，改变会报错；
+
+解构赋值：
+	1.var [a,b,c,d,e='默认值'] = [1,2,3,4]   ------ console.log(a) -> 1
+	2.var zct ={ a=1, b=2 , c=3 }; 
+	    {a,b,c} = zct; console.log(a) -> 1
+	3.function fn({a,b,c}){console.log(a) -> 1}
+	  fn({a:1,b:2,c:3})  
+
+模板字符串：
+	1、 ~ （解构直接写，不需要字符串拼接） ~
+	2、var aa = "zct";
+	let str = ~
+		<ul>
+			<li>${aa}</li>
+			<li>${1+1}</li>
+			<li>${true?1:2}(不能加判断语句，只能加表达式)</li>
+			<li>${[1,2,3].push(10)}</li>
+		</ul>
+	~
+语法：
+	1.var f = () => { console.log(123) }; f() ---- 123;
+	2.传一个参数 var add = a => a+2 console.log(add(10)) ---- 12
+	3.传三个参数 var add = (a,b) => a + b console.log(add(10,10)) ---- 20
+	4.var add = (a,b) => ({num:a+b}) 不加括号默认为函数体
+
+rest参数：
+	function fn(...arr){ console.log(arr) --- [1,2,3]}
+	fn(1,2,3)
+
+	function fn(a,...arr){ console.log(arr) ---1, [2,3]}
+	fn(1,2,3)
+
+object.assign:(target,[])对象合并 
+	1、var o = {a:1} var o1 ={b:2} var o2 = {c:3}
+	   object.assign(o,o1,o2); ---- console.log(o) -> {a:1,b:2,c:3}
+
+扩展运算符
+	1、var arr = [1,2,3];var arr1 = [4,5,6] var arr2 = [...arr,...arr1]
+	   console.log(arr2) ---[1,2,3,4,5,6]
+
+map()映射：对每一项进行处理 然后放在一个新的object里面
+
+filter()过滤
+
+find() 在数组中找到符合条件的第一个
+
+指令：
+	1、v-bind 绑定
+	2、v-on 事件绑定
+	3、v-model:双向数据绑定
+
+用法：new Vue = {  //开启vue
+	el:"#app",   //选择模板
+	data:{
+		msg  //数据
+	}，
+	methods:{   //方法
+		fn(){
+		}
+	}
+      }
+
+循环：v-for语法：v-for="value,index in arr"
+		 v-for="value,key,index in object"
+
+静态方法set：语法：Vue.set(target,prop,value) 开始没有计划好 后期添加的
+	静态方法是挂载在函数上的方法，调用的时候是通过函数调用的
+
+v-if = "表达式" 直接移除
+v-show = "表达式" 隐藏
+v-on可以简写成@
+v-bind可以简写成：
+
+this.$delete(this.target,key)
+
+定义计算属性：computed （和data平级）
+	1、computed:{ aa(){ 函数返回值 } }
+
+get（）函数取值的时候触发
+set（）函数设置值的时候触发
+
+Object.defineProperty(data,"aa",{
+	value:'bb',   //改变值
+	writable:false  //禁止改变值
+	enumerable:false //是否被枚举
+	configurable:false//是否可删除对象属性
+})
+delete data.title//删除对象属性
+
+
+事件修饰符：@click.修饰符
+ 
+自定义指令：directives:{ "foucs":{ update(el,binding){ el:元素 binding:对象 } } }
+
+update 模板更新时触发
+
+watch 实现数据监控{handler：function(){},deep:true  (深度监控，只要数组内发生变化就会触发)}
+
+window.addEventListener("hashchange",function(){
+	var hash = window.location.hash;
+	console.log(hash)
+})//实现数据监控
+
+组件注册：Vue.component("自定义组件名"，{组件描述})
+Vue.component("custom-select",{
+	template:``,//模板
+})
+组件中的data必须是一个函数 不能是对象
+props向子组件传递数据
+
+is=""扩展原生html属性 列如 <table><tr is="自定义标签名"></tr></table> table本来不予许放tr之外的标签 加上is就可以了
+
+$emit向父组件提交数据 this.$emit("reserve",item)；
+同步方法：双向数据绑定：父：<div :app-show.sync="show"></div> 子：abc(){ this.$emit("update:appShow",false) }
+v-model：双向数据绑定：父：<div v-model="show"></div> 子：abc(){ this.$emit("input",false) }
+
+兄弟组件之间的信息传递：this.$root.$emit("abc","123")---发送 this.$root.$on("abc",( value ) => {})---接收
+main.js:Vue.use({ install(Vue){ Vue.prototype.$eventBus = new Vue; } })    this.$eventBus.$emit("abc","123")---发送 this.$eventBus.$on("abc",( value ) => {})---接收
+event Bus 缺点：组件都可以改变数据，没办法调试，数据改变是没有规则的
+
+
+props 验证:
+props:{
+	count:{
+		type:number   验证类型是数字，[]可现成多种的
+		default:10    默认值是10
+		required:true 必须传值
+		validator:function(value){ return value > 10}
+	}
+}
+
+slot:定制模板 可用name来写
+<template name="第几个"><div></div></template>批量替换
+
+keep-alive标签 保留以前的操作状态
+
+vue-cli：安装vue-cli    npm install -g vue-cli
+	 生成目录       npm init webpack <project>
+	 启动开发环境   npm run dev
+
+使用组件三部曲 引入组件、注册组件、使用组件
+
+vuex 安装vuex模块 npm i vuex --save
+     作为插件使用 Vue.use(Vuex)
+     定义容器  new Vuex.Store()
+     注入根实例{
+			store
+		} 
+state （状态）getter（派分的状态）mutation（修改状态的唯一途径  同步操作）actions（异步操作）
+
+actions:{
+	fn(store,parmas){ store.commit("",parmas) }
+}
+
+mutations:{
+	fn(state,payload){ }
+}
+
+
+原则：
+1、每个应用只包含一个store实例
+2、更改store中的状态的唯一方法是提交mutation
+3、mutation必须是同步函数
+4、action 可以包含任意异步操作
+5、action提交的是mutation，而不是直接变更状态
+
+生命钩子：
+created 实例创建完成后调用，此阶段完成了数据的观测等，但尚未挂载， $el 还不可用。需要初始化处理一些数据时会比较有用．
+mounted el 挂载到实例上后调用，一般我们的第一个业务逻辑会在这里开始
+beforeDestroy 实例销毁之前调用。主要解绑一些使用 addEventListener 监听的事件等。
+
+v-show 不能在<template>上使用
+阻止单击事件冒泡：<a @click.stop=”handle"></a> 
+提交事件不再重载页面：<form @submit.prevent="handle"></ form> 
+修饰符可以串联：<a @click.stop.prevent="handle"></a>
+只有修饰符：<form @submit.prevent></form> 
+添加事件侦听器时使用事件捕获模式：<div @click.capture="handle"> ... </div> 
+只当事件在该元素本身（而不是子元素） 触发时触发回调:<div @click.self="handle"> ... </div>
+只触发一次，组件同样适用:<div @click.once="handle"> ... </div> 
+只有在 keyCode 为13 时调用 vm.submit():<input @keyup.13 = "submit">
+也可以自己配置具体按键：Vue.config.keyCodes.fl = 112; ／／全局定义后，就可以使用自 keyup. fl 
+
+.lazy 在输入框中，v-model 默认是在 input 事件中同步输入框的数据（除了提示中介绍的中文输入法情况外），使用修饰符 .lazy 会转变为在 change 事件中同步
+.number 使用修饰符.number 可以将输入转换为 Number 类型，否则虽然你输入的是数字，但它的类型其实是 String ，比如在数字输入框时会比较有用
+.trim 修饰符 .trim 可以自动过滤输入的首尾空格
+
+Vue.component ( 'my-component', { 
+	template : `<div>这里是组件的内容</div>`
+}) ; 
+组件的模板在某些情况下会受到 HTML 的限制，比如<table>内规定只允许是<td>、<th>等这些表格元素，所以在<table>内直接使用组件是无效的 这种情况下，可以使用特殊的is属性来挂载组件
+
+当 prop 需要验证时，就需要对象写法。如果是数组或对象，默认值必须是一个函数来返回
+
+注册自定义指令：
+全局注册 Vue.directive("focus"{})
+局部注册 new Vue({directive:{foucs:{}}})
+使用方法 v-foucs
+自定义指令也有几个函数钩子：
+bind:只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时执行一次的初始化动作
+inserted:被绑定元素插入父节点的时候调用
+update:被绑定元素所在模板更新时调用，而不论绑定值是否发生变化
+componentUpdate:被绑定元素所在模板完成一次更新周期时调用
+unbind:只调用一次，指令与元素绑定时调用
+每个钩子都有几个参数可以用：el,binding,vnode,oldVnode
+
+render:
+var vNode = {
+	tag:当前节点的标签名
+	data:当前节点的数据对象
+	children:子节点，数组，也是VNode类型
+	text:当前节点的文本，一般文本节点或者注释节点会有改属性
+	elm:当前虚拟节点对应的真实的dom节点
+	ns:节点的namespace
+	content:编译作用域
+	functionContext:函数化组件的作用域
+	key:节点的key属性，用于作为节点的标识，有利于patch的优化
+	componentOptions:创建组件实例时会用到的选项信息
+	child:当前节点对应的组件实例
+	parent:组件的占位节点
+	raw:原始html
+	isStatic:静态节点的标识
+	isRootInsert:是否作为根节点插入，被<transition>包裹的节点，该属性的值是false
+	isComment:当前节点是否是注释节点
+	isCloned:当前节点是否是克隆节点
+	isOnce:当前节点是否有v-once指令
+	TextVNode:文本节点
+	ElementVNode:普通元素节点
+	ComponentVNode:组件节点
+	EmptyVNode:没有内容的注释节点
+	CloneVNode:克隆节点
+}
+
+createElement(
+	"div",	//一个html标签，组件选项，或一个函数（必须返回上述一个）
+	{},	//一个对应属性的数据对象，可选
+	[]	//子节点，可选
+)
+render使用方法：
+Vue.component("ele",{
+	render:function(createElement){
+	//这里可以直接用原生js写
+		return createElement(
+			"div",
+			{
+				class:{
+					"show":this.show
+				}
+			},
+			"文本内容"
+		)
+	}
+})
+
+函数化组件：functional:true，会传入一个上下文参数代替this之类的
+
+
+
+
+
+
+
+
+
+
+
+
+
+

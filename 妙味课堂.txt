@@ -1,0 +1,239 @@
+文字两端对齐
+ul li{width: 120px;height: 40px;line-height: 40px;text-align: justify;text-align-last:justify}
+ul li:after{content: '';display: inline-block;width: 100%;}
+注意每个单词之间都有空格，这个很重要，很重要，很重要，而且只需一个空格就行，多个空格也不影响。如果没有这个空格，兼容性很差，基本只有谷歌和火狐支持。
+
+ie8、9下兼容渐变：
+	-ms-filter:"progid:DXImageTransform.microsoft.gradient(GradientType=0,startColorstr=#fff,endColorstr=#000)";
+
+线性渐变：
+	linear-gradient:(start(position),end(position),color,color);
+
+各个浏览器内核以及前缀：
+	Chrome(谷歌浏览器) ：WebKit内核   -webkit-
+	Safari(苹果浏览器) ：WebKit内核   -webkit-
+	Firefox(火狐浏览器) ：Gecko内核   -moz-
+	IE(IE浏览器) ：     Trident内核   -ms-
+	Opera(欧朋浏览器) ： Presto内核   -o-
+
+原始js
+	oDiv.style.width -> oDiv.style['width(可变)']；
+	oDiv.style.cssText="width:200px;height:200px;"(添加样式)；
+
+inline-block：
+	两个div会有间隙，解决：父级加font-size:0；
+
+zoom:
+	zoom触发ie6/7下的haslayout；
+
+BFC:
+	bfc -- 块格式化上下文（block formatting context）；
+	overflow:hidden; / float / position:absolute; / display:inline-block; 可以触发；
+
+open(url,打开方式)：
+	如果URL为空，则默认打开一个空白页面
+	如果打开方式为空，默认为新窗口方式打开
+close()：关闭方法 
+
+window.navigator.userAgent浏览器信息
+判断浏览器：if(window.navigator.userAgent.indexOf("MSIE") != 1){
+		我是ie
+	}
+
+window.location:浏览器地址信息 = window.location.href
+window.location.search : url ? 后面内容
+window.location.hash : url # 后面内容
+
+可视区的尺寸 obj.clientWidth obj.clientHeight 可视区的宽高 
+document.documentElement.clientWidth
+document.documentElement.clientHeight
+
+滚动距离
+document.documentElement.scrollTop(scrollLeft) || document.body.scrollTop(scrollLeft)[处理谷歌]
+
+内容高度
+oDiv.scrollHeight(width)
+
+文档高度
+document.documentElement.offsetHeight(width) || document.body.offsetHeight(width)[处理ie]
+
+onscorll : 当滚动条滚动时触发
+onresize : 当窗口大小发生变化时触发
+onfocus:当元素获取到焦点的时候触发
+onblur:当元素失去焦点的时候触发
+
+方法：obj.focus()给指定元素设置焦点
+      obj.blur()取消指定元素的焦点
+      obj.select()选择指定元素里面的文本内容
+
+event : 兼容 
+	ie/chrome : event是一个内置全局对象
+	ff : 事件对象是通过事件函数的第一个参数传入的
+	function (ev){
+		var e = ev || event
+	}
+
+clientX[Y] ：当事件发生时，鼠标到可视区的距离
+事件冒泡：阻止事件冒泡 event.cancelBubble = true ||  ev.stopPropagation()
+事件绑定：可以加多个事件函数
+ie:obj.attachEvent(事件名称，事件函数);
+标准:obj.addEventLister(事件名称（没有on），事件函数，是否捕获（默认false，false为冒泡）)
+call()方法:fn1 == fn1.call()
+call方法第一个参数可以改变函数执行过程中的内部this的指向
+call方法第二个参数开始就是原来函数的参数列表
+function bind(obj,event,fn){
+	if(obj.addEventLister){
+		obj.addEventLister(event,fn,false)
+	}else{
+		obj.attachEvent(event,function(){
+			fn1.call(document,event,fn)
+		})
+	}
+}
+bind(document,"click",fn1)
+
+取消事件绑定：（1）重新给函数赋值为空就能取消；（2）ie下取消：obj.detachEvent(事件名称，事件函数)  标准下取消：obj.removeEvent
+
+向一个容器里前面添加li insertBefore(要添加的东西，在哪一个前面添加)
+向一个容器里最后添加li obj.appendChild(要添加的东西)
+
+键盘事件：
+onkeydown:鼠标按下事件 如果按下不抬起，会连续触发
+onkeyup:鼠标抬起事件
+keyCode:键码
+ctrlKey,shiftkey,altKey 布尔值 当一个事件发生的时候，如果Ctrl,shift,alt 按下的状态，返回true 否则返回false
+只有有焦点的元素才能响应键盘事件
+
+oncontextmenu:右键菜单事件
+
+鼠标拖拽原理：
+var oDiv = document.getElementById("div1");
+drag(oDiv)
+function  drag(obj) {
+
+	obj.onmousedown = function  (ev) {
+
+		var ev = ev || event;
+		var disX = ev.clientX - this.offsetLeft;
+		var disY = ev.clientY - this.offsetTop;
+		var disW = document.documentElement.clientWidth || document.body.clientWidth;
+		var disH = document.documentElement.clientHeight || document.body.clientHeight;
+		
+		if(obj.setCapture){
+			obj.setCapture();
+		}
+
+		document.onmousemove = function  (ev) {
+			var ev = ev || event;
+			var L = ev.clientX - disX,
+				T = ev.clientY - disY;
+			
+			if(L < 30){
+				L = 0;
+			}else if(L >= disW - parseInt(obj.offsetWidth + 30)){
+				L = disW - obj.offsetWidth;
+			}
+
+			if(T < 30){
+				T = 0;
+			}else if(T > disH - parseInt(obj.clientHeight + 30)){
+				T = disH - obj.clientHeight;
+			}
+			
+			obj.style.left = L + "px";
+			obj.style.top = T + "px";
+		}
+
+		document.onmouseup = function  () {
+			document.onmouseup = document.onmousemove = null;
+			if(obj.releaseCapture){
+				obj.releaseCapture();
+			}
+		}
+
+
+	}
+
+}
+拖拽时，如果有文字被选中，会产生问题。原因：当鼠标按下的时候如果页面中有文字被选中，会触发浏览器默认拖拽文字的效果
+解决方法：阻止默认行为  标准：return false; ie：
+
+obj.setCapture(); 设置全局捕获，当我们给一个元素设置全局捕获后，这个元素会监听后续发生的所有事件，当事件发生的时候，就会被当前设置了全局捕获的元素触发
+ie：有并且有效果；火狐：有，但是没效果；谷歌：没有，会报错
+释放全局捕获 releaseCapture()
+
+鼠标滚轮事件：
+ie/chrome : obj.onmousewheel = fn1 ev.wheelDelta() 向上是120 向下是-120 
+ff : DOMMouseScroll (必须用addEventListener) ev.detail() 向上是-3 向下是3
+处理兼容：
+var b;
+if(ev.wheelDelta){
+	b = ev.wheelDelta > 0 ? true : false;
+}else{
+	b = ev.detail < 0 ? true : false;
+}
+if(ev.preventDefault){
+	ev.preventDefault();
+}
+return false;
+
+
+cookie ：存储数据，当用户访问了某个网站（网页）的时候，我们就可以通过cookie来向访问者电脑上存储数据
+1、不同浏览器存放cookie的位置不一样，也是不能通用的
+2、cookie的存储是以域名形式进行区分
+3、cookie的数据可以设置名字的
+4、一个域名下存放的cookie的个数是有限制的，不同的浏览器存放的个数是不一样的
+5、每个cookie存放的内容大小也是有限制的，不同浏览器大小不一样
+
+我们通过document.cookie来获取当前网站下的cooKie的时候，得到的字符串形式的值，他包含了当前网站下所有的cookie，
+他会把所有的cookie通过一个分号+空格的形式串联起来。
+如果想长时间存放一个cookie，需要在设置这个cookie的时候同时给他设置一个过期时间。
+cookie默认是临时存储的，当浏览器关闭进程会失效。
+
+
+document.cookie = "名称=值;expires=" + 时间(字符串)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

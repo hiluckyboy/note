@@ -1,0 +1,172 @@
+1、在node中的顶层对象 global
+2、一个文件就是一个模块，每个模块都有自己的作用域
+3、模块加载系统 require("模块")
+4、module.exports. (挂载) 可以写成 exports.
+5、process.stdout.write（）写出；
+6、默认情况下输入流是关闭的，要监听处理输入流数据，首先要开启输入流；
+	process.stdin.resume();
+   用于监听用户的输入数据
+   	process.stdin.on("data",function(chunk){
+		console.log("用户输入了：" + chunk)
+	})
+7、new Buffer(size);size[number]创建一个buffer对象，并且为这个对象分配一个大小，其长度固定且不能更改；
+8、xx.write( str , 1 , 3) str--这是要写入的字符串，1是开始的位置，3是截取的个数;
+9、fs.open(path,flags,[mode],callback)异步打开  path--要打开文件的路径  flags--打开文件的方式（读/写） mode--设置文件的模式（读/写/执行） 
+	callback--回调函数（err：文件打开失败的错误保存在err里面，如果成功err为空  fd被打开文件的标识）
+	当我们对打开的文件进行写入是 模式需要改成r+
+10、fs.openSync() 同步打开；
+11、读取文件 fs.read(fd,buffer,offset,length,position,callback)
+	fd -- 通过open方法成功打开一个文件返回的标号；
+	buffer -- buffer对象
+	offset -- 新的内容添加到buffer中的起始位置
+	length -- 添加到buffer中的长度
+	position --读取文件中的起始位置
+	callback -- 回调（err，newBuffer）
+12、fs.write(fd,buffer,offset,length,[position],callback)
+	fd -- 打开的文件
+	buffer -- 要写入的数据
+	offset -- buffer对象中要写入的数据的起始位置
+	length -- 要写入的buffer数据的长度
+	position -- 要写入的起始位置
+	callback -- 回调
+13、var fs = require("fs");
+    var filename = "2.txt";
+    var con = "1234567890";
+    fs.writeFile(filename, con ,function(){  //appendFile()追加内容
+         console.log(arguments)
+    })
+    向一个文件中写入数据 如果写入的文件不存在则新建一个文件，如果有则会覆盖原文件的内容
+14、异步--读取文件内容 readFile(filename,[option],callback)     同步--readFileSync(filename,[option])
+15、fs.unlink(filename,callback) 删除一个文件
+16、fs.rename(原文件名,新文件名,callback)
+17、fs.stat(filename,callback) 返回文件状态
+18、fs.watch(filename,callback(ev,fn)) 监听文件是否发生改变
+19、fs.mkdir(path,[mode],callback) 创建文件夹
+20、fs.rmdir(path,[mode],callback) 删除文件夹
+21、fs.readdir("./XUQIU",function(err,filelist){
+	console.log(filelist)
+    })	读取文件
+
+22、自动化创建
+
+需要创建的项目
+var projectData = {
+	'name' : "XUQIU_" ,
+	'fileData' : [
+		{
+			'name' : "css",
+			'type' : "dir",
+			'fileChild' : [
+				{
+					'name' : "img",
+					'type' : "dir"
+				},
+				{
+					'name' : "style.css",
+					'type' : "file",
+					'content' : cssContent
+				}
+			]
+		},
+		{
+			'name' : "image",
+			'type' : "dir"
+		},
+		{
+			'name' : "js",
+			'type' : "dir"
+		},
+		{
+			'name' : "index.html",
+			'type' : "file",
+			'content' : htmlContent
+		}
+	]
+
+}
+
+var fs = require("fs");
+判断是否存在name值
+if(projectData.name){
+	如果存在name值就创建名为name的文件夹
+	fs.mkdirSync(projectData.name,function(err){
+		console.log(err)
+	});
+	定义主文件夹下的文件
+	var fileData = projectData.fileData;
+	判断是否存在fileData
+	if(fileData && fileData.forEach){
+		存在，因为子文件是个数组，所以给子文件做循环处理
+		fileData.forEach(function(f,i){
+			定义路径
+			f.path = projectData.name + "/" + f.name;
+			定义内容
+			f.content = f.content || "";
+			定义子文件夹下的文件夹
+			var fileChild = projectData.fileData[i].fileChild;
+			switch判断文件类型
+			switch (f.type) {
+				文件夹走这里
+				case "dir":
+					fs.mkdirSync(f.path);
+					if(fileChild && fileChild.forEach){
+						fileChild.forEach(function(g){
+							g.path = f.path + "/" + g.name;
+							g.content = g.content || "";
+							switch (g.type) {
+								case "dir":
+									fs.mkdirSync(g.path);
+									break;
+								case "file":
+									fs.writeFileSync(g.path,g.content);
+									break;
+								default:
+									break;
+							}
+						})
+					}
+					break;
+				文件走这里
+				case "file":
+					fs.writeFileSync(f.path,f.content);
+					break;
+
+				default:
+					break;
+			
+			}
+		})
+	}
+}
+
+23、http请求
+	引入http模块
+	var http = require("http");
+	创建一个http服务器对象
+	var server = http.createServer(requestListener);
+	- requestListener 监听客户端连接的回调函数
+	开启监听
+	server.listen(port,[hostname],[backlog],[callback])
+	- 监听客户端连接请求，只有调用了listen方法后服务器才开始工作
+	port - 监听端口
+	hostname - 主机名
+	backlog - 连接等待队列的最大长度
+	callback - 调用listen方法并成功开启监听后，会触发一个listening事件，callback将作为该事件的执行函数
+
+    事件:error - 返回错误信息 
+	 listening - 监听事件 
+	 request - 当有客户发送请求到该主机和端口的请求时触发
+		两个参数:request 通过他我们可以获取到这次请求的一下信息
+				- httpVersion 使用的http协议的版本
+				- headers 请求头像中的数据
+				- url 请求的地址
+				- method 请求的方式
+			 response 通过他我们可以向该次请求的客户端输出返回响应
+			 	- write(chunk,[encoding])发送一个数据到响应正文中
+				- end(chunk,[encoding])当所有的正文和头信息发送完成以后调用该方法告诉服务器数据已经全部发送完了，这个方法在每次完成信息发送后必须调用，并且在最后调用
+				- statusCode 该属性用来设置返回的状态码
+				- setHeader(name,value) 设置返回头信息
+				- writeHead(statusCode,[reasonPhrase],[headers]) 这个方法只能在当前请求中使用一次，并且必须在end之前调用
+
+24、URL模块
+	querystring模块 parse():将一个querystring反序列化为一个对象

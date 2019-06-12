@@ -1,0 +1,14 @@
+git init 初始化厂库
+git add 增加
+git rm --cached *.html 删除
+git status 查看状态
+git commit -m "描述内容" 提交+描述
+git branch *** 创建分支
+git checkout *** 进入分支
+git merge *** 将***合并到主线（前提要在主线下操作）
+git remote 查看是否有地址
+git push 上传 
+
+
+git remote add origin https://github.com/luckyboyZct/companytest.git
+git push -u origin master

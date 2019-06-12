@@ -1,0 +1,23 @@
+1、创建一个ajax对象
+	ie6以下new ActiveXObject("Microsoft.XMLHTTP")
+
+	处理兼容：
+	var xhr = null;
+	if(window.XMLHttpRequest){
+		xhr = new XMLHttpRequest();
+	}else{
+		xhr = new ActiveXObject("Microsoft.XMLHTTP")
+	}
+
+	或者
+
+	try{
+		//代码常识执行这个代码块中的内容 如果有错误 则会执行catch{} 并且传入错误信息
+	}catch(e){
+		// 上面代码错误 则执行catch{}里的代码
+	}
+
+2、open方法：
+	参数：打开方式（get、post） 打开地址 是否异步（true为异步，false为同步）
+
+3、responseText:ajax请求返回的内容就被存放在这个属性里面

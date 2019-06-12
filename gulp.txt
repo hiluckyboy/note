@@ -1,0 +1,11 @@
+$ npm i -g gulp   安装gulp的全局的包
+
+$ npm init -y     安装gulp的全局的包
+
+$ npm i -S gulp   安装gulp的全局的包
+
+$ npm i -S gulp-autoprefixer   安装gulp的全局的包
+
+$ npm i -S gulp-rename         gulp的重命名插件
+
+在项目根目录下创建一个名为 gulpfile.js 的文件

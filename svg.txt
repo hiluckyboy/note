@@ -1,0 +1,36 @@
+一、svg声明：
+	<?xml version="1.0" encoding="utf-8"?>
+	<!DOCTYPE svg PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<svg  xmlns="http://www.w3.org/2000/svg"></svg>
+	
+    html文件引入：<img src="svg1.svg">
+
+
+二、标签：
+     1、circle - 圆形 
+	cx，cy : 中心点 ；
+	r : 半径 ；
+	fill = "red" : 颜色填充(实心圆) ；
+	storke = "#000" : 边框颜色；storke-width = "3" : 边框宽；
+	style方式：style="fill:transparent;storke:#f00;storke-width:3;"
+
+     2、rect - 矩形
+	width="200" 宽
+	height="200" 高
+	x，y 位置
+	rx，ry 圆角
+
+     3、line - 线
+     	x1,y1 x2,y2起点 终点
+	storke - 划线
+
+     4、ellipse:椭圆
+     	polyine:折线
+	ploygon:多边形
+	path   :路径
+
+     5、g标签 - 是一个容器标签，用来组合元素的 : transform = "translate(0,0)"
+     6、text标签 x,y 文字坐标 font-size="30" 文字大小    text-anchor="middle"
+     7、<image>标签 x,y 坐标位置 width，height宽高 xlink:href="" 导入图片
+     8、createElementNS - 两个参数（命名空间，标签名）；
+     9、封装createTag函数；

@@ -1,0 +1,185 @@
+﻿一、meta标签设置
+1、decive-width  ---------------------------- 设置布局视口的宽度。
+2、decive-height ---------------------------- 设置布局视口的高度。
+3、initial-scale ---------------------------- 定义初始页面缩放值。
+4、minimum-scale ---------------------------- 定义用户缩小的最小比例。
+5、maximum-scale ---------------------------- 定义用户缩小的最小比例。
+6、user-scalable ---------------------------- 定义是否允许用户手动缩放页面，默认值yes。
+
+二、语义化标签
+<header></header>	用于头部
+<footer></footer>	用于底部
+<nav></nav>		用于导航
+<hgroup></hgroup>	用于组标题
+<section></section>	用于板块
+<article></article>	用于内容部分
+<aside></aside>		用于附属信息、侧边栏
+<address></address>	定义文章
+<mark></mark>		标记文字
+<figure>
+	<figcaption></figcaption>
+</figure>		用于元素组合
+<time></time>		用于时间标签
+
+<input type="text" list="val" />
+<datalist id="val">
+	<option value="javascript">javascript</option>
+</datalist>		用来定义input可能的值
+
+<details open>		open默认打开
+	<summary></summary>
+	<p></p>
+</details>		用来点击显示相关信息
+
+<dialog>
+	<dt></dt>
+	<dd></dd>
+</dialog>		用于对话
+
+<keygen></keygen>	表单公钥
+<progress max="100" value="76"></progress> 进度条 max最大 value当前值
+
+处理低版本兼容：document.createElement()
+
+form表单控件：
+<input type="email"/>		邮箱控件
+<input type="tel"/>		电话控件
+<input type="url"/>		链接控件
+<input type="search"/>		搜索控件
+<input type="range" step="2" min="0" max="10">滑动控件 step每次跳几个
+
+<input type="
+	(
+		number 上下加减数字
+		color 颜色
+		datetime 显示完整日期
+		datetime-local 显示完整日期，不含时区
+		time 显示时间，不含时区
+		date 显示日期
+		week 显示周
+		month 显示月
+	)
+	属性：
+	(
+		placeholder:输入框提示
+		autocomplete:是否保存用户输入值 默认on
+		autofocus:指定表单湖区输入焦点
+		list和datalist:为输入框构造一个选择列表
+		required:此项必填
+		Pattern:正则验证
+		Formaction:在submit里定义提交地址 formaction=""
+	)
+"/>		
+
+表单验证
+validity对象，通过下面的valid可以查看验证是否通过，如果八种验证都通过返回true，一种验证失败返回false
+oText.addEventListener("invalid",fn1,false);
+ev.preventDefault();
+valueMissing:输入值为空时
+typeMismatch:控件值与预期类型不匹配
+patternMismatch:输入值不满足pattern正则
+tooLong:超过maxLength最大限制
+rangeUnderflow:验证的range最小值
+rangeOverflow:验证的range最大值
+stepMismatch:验证range的当前值是否符合min、max及step的规则
+customError:不符合自定义验证
+	setCustomValidity():自定义验证
+
+新的选择器
+document.querySelector("#box[属性]");只能选择一组中的一个元素,不兼容ie9以下
+document.querySelectorAll(".box[属性]");可以选择一组元素,不兼容ie9以下
+document.getElementsByClassName();不兼容ie8以下
+
+oDiv.classList 所有的class名
+add() 增加class名
+remove() 删除class
+toggle() 切换class
+
+json的新方法：
+JSON.parse() 把字符串转化成json,一定是严格的json
+JSON.styingify() 把json转化成字符串
+eval() 把字符串转化成js
+
+dataset. 获取自定义属性
+延时加载js：
+defer 延迟加载，会按顺序执行，在onload执行前被触发
+async 异步加载，加载完就触发，有顺序问题
+
+历史管理：(妙味课堂-h5详解-新特性（4-8）（没听）)
+onhashchange:改变hash值来管理
+history:
+服务器下运行
+pushState:三个参数：数据 标题（都没实现） 地址（可选）
+popstate事件:读取数据 event.state
+
+canvas：
+默认宽高：300 150;
+绘制环境:getContext("2d");
+
+fillStyle:填充颜色
+lineWidth:线宽
+strokeStyle:边线颜色
+
+绘制方块:
+fillRect(l,t,w,h);黑色方块
+strokeRect(l,t,w,h);边框黑色方块
+
+绘制边界：
+lineJoin:边界连接点样式 miter(默认) round(圆角) bevel(斜角)
+lineCap:端点样式 butt(默认) round(圆角) square(高度多出为宽度一半的值)
+
+绘制路径：
+beginPath:开始绘制路径
+closePath:结束绘制路径
+moveTo:移动到绘制的新目标点
+lineTo:新的目标点
+
+stroke：画线
+fill：填充
+reat：矩形区域
+clearRect：删除一个画布的矩形区域
+save：保存路径
+restore：回复路径
+
+绘制圆形：
+arc(x,y,半径,起始弧度,结束弧度,旋转方向)
+x,y起始位置
+弧度与角度的关系：弧度 = 角度*Math.PI/180
+旋转方向：顺时针false（默认）逆时针true
+
+绘制其他曲线：
+arcTo(x1,y1,x2,y2,r) 第一组坐标、第二组坐标、半径
+quadraticCurveTo(dx,dy,x1,y1) 贝塞尔曲线：第一组控制点、第二组结束坐标
+bezierCurveTo(dx1,dy1,dx2,dy2,x1,y1) 贝塞尔曲线：第一组控制点、第二组控制点、第三组结束坐标
+
+变形：
+translate(x,y) 偏移
+rotate() 旋转：参数为弧度
+scale(w,h) 缩放
+
+插入图片：需要等图片加载完
+drawImage(oImg,x,y,w,h)
+
+var Img = new Image();
+Img.src = "2.jpg";
+Img.onload = function(){
+	draw(this);
+}
+function draw(obj){
+	drawImage(obj,0,0)
+}
+
+设置背景：
+createPattern(oImg,平铺方式)
+
+
+
+
+
+
+
+
+
+
+
+
