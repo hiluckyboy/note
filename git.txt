@@ -7,6 +7,8 @@ git status 查看状态
 git commit -m "描述内容" 提交+描述
 git commit -a -m "描述内容" 跳过add的操作
 git log 查看历史操作
+git diff 对比工作区和暂存区
+git diff --cached 对比暂存区和版本区
 
 git branch *** 创建分支
 git checkout *** 进入分支
