@@ -10,6 +10,7 @@ git log 查看历史操作
 git diff 对比工作区和暂存区
 git diff --cached(--staged) 对比暂存区和版本区
 git diff master 对比工作区和版本区
+git reset HEAD * 从暂存区撤销到工作区
 
 git branch *** 创建分支
 git checkout *** 进入分支
