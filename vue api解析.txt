@@ -70,7 +70,6 @@
 	用法：productionTip:true
 
 
-
 全局api
 
 一、Vue.extend( options ) 
@@ -136,12 +135,52 @@
 	参数：{string} id		{Function} [definition]
 	用途：注册或获取全局过滤器。
 	用法：
+	{{obj | myfilter}}
+	Vue.filter('myfilter', function (value) {
+		// 返回处理后的值
+		return "这是："+value
+	})
 
+七、Vue.component( id, [definition] )
+	参数：{string} id	{Function | Object} [definition]
+	用途：注册或获取全局组件。注册还会自动使用给定的id设置组件的名称
+	用法：
+	Vue.component('my-component', {
+		template:``,
+		data(){
+		}
+	})
 
+八、Vue.use( plugin )
+	参数：{Object | Function} plugin
+	用途：安装 Vue.js 插件。如果插件是一个对象，必须提供 install 方法。如果插件是一个函数，它会被作为 install 方法。install 方法调用时，会将 Vue 作为参数传入。该方法需要在调用 new Vue() 之前被调用。
+	用法：Vue.use( plugin )
 
+九、Vue.mixin( mixin )
+	参数：{Object} mixin
+	用途：全局注册一个混入，影响注册之后所有创建的每个 Vue 实例。插件作者可以使用混入，向组件注入自定义的行为
+	用法：
+	Vue.mixin({
+		data(){
+		}
+	})
 
+十、Vue.compile( template )
+	参数：{string} template
+	用途：在 render 函数中编译模板字符串。只在独立构建时有效
+	用法：
+	var res = Vue.compile('<div><span>{{ msg }}</span></div>')
+	new Vue({
+		data: {
+			msg: 'hello'
+		},
+		render: res.render,
+		staticRenderFns: res.staticRenderFns
+	})
 
-
+十一、Vue.observable( object )
+	参数：{Object} object
+	用途：让一个对象可响应。Vue 内部会用它来处理 data 函数返回的对象。
 
 
 
