@@ -18,6 +18,10 @@ git reset HEAD * 从暂存区撤销到工作区
 git branch *** 创建分支
 git checkout *** 进入分支
 git checkout -- <file> 更新文件与master相符
+git checkout id <file> 恢复文件 指定文件
+git reset --hard id 恢复文件 整个版本
+git reset --hard HEAD^（~3） 恢复文件到上一个版本（恢复文件到前三个版本）
+git reflog 查看历史操作信息
 
 git merge *** 将***合并到主线（前提要在主线下操作）
 git remote 查看是否有地址
