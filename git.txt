@@ -26,6 +26,7 @@ git reflog 查看历史操作信息
 git merge *** 将***合并到主线（前提要在主线下操作）
 git remote 查看是否有地址
 git push 上传 
+git pull 更新远程仓库
 
 
 git remote add origin https://github.com/hiluckyboy/hiluckyboy.github.io
@@ -40,3 +41,9 @@ git分为是三个区
 	- 保护工作区和版本区
 	- 分支处理
 版本库：
+
+解决多人协作冲突：
+git fetch:可以查看哪里冲突，但是需要手动合并文件
+	git diff master origin/master
+	git merge origin/master
+git pull:直接合并文件
