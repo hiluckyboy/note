@@ -6,14 +6,19 @@ git rm --cached *.html 删除
 git status 查看状态
 git commit -m "描述内容" 提交+描述
 git commit -a -m "描述内容" 跳过add的操作
+git commit -m '' --amend 撤销上一次提交的内容与这一次要提交的内容一起提交
 git log 查看历史操作
+
 git diff 对比工作区和暂存区
 git diff --cached(--staged) 对比暂存区和版本区
 git diff master 对比工作区和版本区
+
 git reset HEAD * 从暂存区撤销到工作区
 
 git branch *** 创建分支
 git checkout *** 进入分支
+git checkout -- <file> 更新文件与master相符
+
 git merge *** 将***合并到主线（前提要在主线下操作）
 git remote 查看是否有地址
 git push 上传 
